@@ -12,6 +12,7 @@
 #include "cores/RetroPlayer/buffers/BaseRenderBufferPool.h"
 #include "cores/RetroPlayer/buffers/video/RenderBufferSysMem.h"
 #include "cores/RetroPlayer/process/RPProcessInfo.h"
+#include "cores/RetroPlayer/rendering/VideoShaders/windows/VideoShaderTextureDX.h"
 
 #include <memory>
 #include <stdint.h>
@@ -49,7 +50,7 @@ namespace RETRO
     // implementation of IRenderBuffer via CRenderBufferSysMem
     bool UploadTexture() override;
 
-    CD3DTexture *GetTarget() { return m_intermediateTarget.get(); }
+    SHADER::CShaderTextureCD3D *GetTarget() { return m_intermediateTarget.get(); }
 
   private:
     bool CreateTexture();
@@ -66,7 +67,7 @@ namespace RETRO
     const DXGI_FORMAT m_targetDxFormat;
 
     AVPixelFormat m_targetPixFormat;
-    std::unique_ptr<CD3DTexture> m_intermediateTarget;
+    std::unique_ptr<SHADER::CShaderTextureCD3D> m_intermediateTarget;
 
     SwsContext *m_swsContext = nullptr;
   };
@@ -120,6 +121,9 @@ namespace RETRO
 
   private:
     void Render(CD3DTexture& target);
+    //void Render(CD3DTexture *target); // Rebase artifact
+
+    SHADER::CShaderTextureCD3D m_targetTexture;
   };
 }
 }
