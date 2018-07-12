@@ -127,6 +127,7 @@ set(required_deps ASS
                   fstrcmp
                   Iconv
                   LibDvd
+                  LMDB
                   Lzo2
                   OpenSSL
                   PCRE
