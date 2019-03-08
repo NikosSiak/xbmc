@@ -10,7 +10,7 @@
 
 #include "cores/RetroPlayer/guibridge/GUIGameVideoHandle.h"
 #include "cores/RetroPlayer/rendering/RenderVideoSettings.h"
-#include "cores/RetroPlayer/rendering/VideoShaders/VideoShaderPresetFactory.h"
+#include "cores/RetroPlayer/shaders/ShaderPresetFactory.h"
 #include "guilib/LocalizeStrings.h"
 #include "guilib/WindowIDs.h"
 #include "settings/GameSettings.h"
