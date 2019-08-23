@@ -1,1 +1,2 @@
+xbmc/cores/RetroPlayer/shaders/gl cores/RetroPlayer/shaders/gl # OPENGL
 xbmc/rendering/gl rendering/gl # OPENGL
