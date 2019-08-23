@@ -10,14 +10,19 @@
 
 #include "RPBaseRenderer.h"
 #include "cores/RetroPlayer/process/RPProcessInfo.h"
+#include "guilib/TextureGL.h"
 
 #include "system_gl.h"
+
+#include <map>
+#include <memory>
 
 namespace KODI
 {
 namespace RETRO
 {
   class CRenderContext;
+  class CRenderBufferOpenGL;
 
   class CRendererFactoryOpenGL : public IRendererFactory
   {
@@ -54,6 +59,10 @@ namespace RETRO
       float y;
       float z;
     };
+    struct RenderBufferTextures {
+        CGLTexture source;
+        CGLTexture target;
+    };
     
     // implementation of CRPBaseRenderer
     void RenderInternal(bool clear, uint8_t alpha) override;
@@ -73,6 +82,8 @@ namespace RETRO
     void DrawBlackBars();
 
     virtual void Render(uint8_t alpha);
+
+    std::map<CRenderBufferOpenGL*, std::unique_ptr<RenderBufferTextures>> m_RBTexturesMap;
 
     GLuint m_mainVAO;
     GLuint m_mainVertexVBO;
