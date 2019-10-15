@@ -76,8 +76,8 @@
 #define ADDON_INSTANCE_VERSION_AUDIOENCODER_XML_ID    "kodi.binary.instance.audioencoder"
 #define ADDON_INSTANCE_VERSION_AUDIOENCODER_DEPENDS   "addon-instance/AudioEncoder.h"
 
-#define ADDON_INSTANCE_VERSION_GAME                   "2.0.0"
-#define ADDON_INSTANCE_VERSION_GAME_MIN               "2.0.0"
+#define ADDON_INSTANCE_VERSION_GAME                   "3.0.0"
+#define ADDON_INSTANCE_VERSION_GAME_MIN               "3.0.0"
 #define ADDON_INSTANCE_VERSION_GAME_XML_ID            "kodi.binary.instance.game"
 #define ADDON_INSTANCE_VERSION_GAME_DEPENDS           "addon-instance/Game.h"
 

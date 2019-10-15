@@ -116,6 +116,7 @@ private:
    * @brief Callback functions from addon to kodi
    */
   //@{
+  static void cb_enable_hardware_rendering(void* kodiInstance, const game_hw_rendering_properties* properties);
   static void cb_close_game(void* kodiInstance);
   static void* cb_open_stream(void* kodiInstance, const game_stream_properties *properties);
   static bool cb_get_stream_buffer(void* kodiInstance, void *stream, unsigned int width, unsigned int height, game_stream_buffer *buffer);

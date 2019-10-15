@@ -350,9 +350,13 @@ typedef enum GAME_HW_CONTEXT_TYPE
 //------------------------------------------------------------------------------
 
 //==============================================================================
-/// @brief **Hardware framebuffer properties**
+/// @brief **Hardware rendering properties**
 ///
-typedef struct game_stream_hw_framebuffer_properties
+/// These properties are needed early on, so instead of passing them when the
+/// stream is opened, they are passed in EnableHardwareRendering(). As a
+/// result, the struct passed to OpenStream() is empty.
+///
+typedef struct game_hw_rendering_properties
 {
   /// @brief The API to use.
   ///
@@ -402,6 +406,17 @@ typedef struct game_stream_hw_framebuffer_properties
 
   /// @brief Creates a debug context.
   bool debug_context;
+} ATTRIBUTE_PACKED game_hw_rendering_properties;
+//------------------------------------------------------------------------------
+
+//==============================================================================
+/// @brief **Hardware framebuffer properties**
+///
+/// This struct is empty because hardware rendering properties are passed via
+/// EnableHardwareRendering().
+///
+typedef struct game_stream_hw_framebuffer_properties
+{
 } ATTRIBUTE_PACKED game_stream_hw_framebuffer_properties;
 //------------------------------------------------------------------------------
 
@@ -1217,6 +1232,7 @@ typedef struct AddonToKodiFuncTable_Game
 {
   KODI_HANDLE kodiInstance;
 
+  void (*EnableHardwareRendering)(void*, const game_hw_rendering_properties*);
   void (*CloseGame)(void* kodiInstance);
   void* (*OpenStream)(void*, const game_stream_properties*);
   bool (*GetStreamBuffer)(void*, void*, unsigned int, unsigned int, game_stream_buffer*);
@@ -1607,7 +1623,16 @@ public:
   }
   //----------------------------------------------------------------------------
 
-  //==========================================================================
+  //============================================================================
+  ///
+  /// @brief **Callback to Kodi Function**<br>Requests the frontend to set up hardware rendering
+  ///
+  /// @remarks Only called from addon itself
+  ///
+  void EnableHardwareRendering(const game_hw_rendering_properties& properties) { m_instanceData->toKodi.EnableHardwareRendering(m_instanceData->toKodi.kodiInstance, &properties); }
+  //----------------------------------------------------------------------------
+
+  //============================================================================
   ///
   /// @brief **Callback to Kodi Function**<br>Requests the frontend to stop the current game
   ///
