@@ -128,6 +128,7 @@ set(required_deps ASS
                   fstrcmp
                   Iconv
                   LibDvd
+                  Libp2p
                   LMDB
                   Lzo2
                   OpenSSL
