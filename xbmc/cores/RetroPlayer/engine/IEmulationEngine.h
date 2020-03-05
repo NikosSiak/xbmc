@@ -19,7 +19,6 @@ namespace RETRO
   class CReward;
   class CState;
 
-  // clang-format off
   /*!
    * \brief Game-Theoretic Emulation Engine
    *
@@ -237,11 +236,12 @@ namespace RETRO
     using A = CAction;
 
     // Environment functions
+    // clang-format off
     virtual void PlayFrame(  T t,       S& state, const R& reward, const P& policy, const A& action ) = 0;
     virtual void GetReward(  T t, const S& state,       R& reward, const P& policy, const A& action ) = 0;
     virtual void Strategize( T t, const S& state, const R& reward,       P& policy, const A& action ) = 0;
     virtual void GetInput(   T t, const S& state, const R& reward, const P& policy,       A& action ) = 0;
+    // clang-format on
   };
-  // clang-format on
 }
 }
