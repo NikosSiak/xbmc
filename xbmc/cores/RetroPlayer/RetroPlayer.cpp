@@ -493,6 +493,32 @@ std::string CRetroPlayer::GameClientID() const
   return "";
 }
 
+std::string CRetroPlayer::GetPlayingGame() const
+{
+  if (m_gameClient)
+    return m_gameClient->GetGamePath();
+
+  return "";
+}
+
+IPlayback* CRetroPlayer::GetPlayback() const
+{
+  return m_playback.get();
+}
+
+void CRetroPlayer::ResetGame()
+{
+  if (m_gameClient)
+  {
+    float speed = static_cast<float>(m_playback->GetSpeed());
+
+    m_playback->SetSpeed(0.0);
+
+    CLog::Log(LOGDEBUG, "RetroPlayer[PLAYER]: Sending reset command via game callback");
+    m_gameClient->Input().HardwareReset();
+  }
+}
+
 void CRetroPlayer::SetPlaybackSpeed(double speed)
 {
   if (m_playback)
