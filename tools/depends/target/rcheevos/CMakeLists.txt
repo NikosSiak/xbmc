@@ -53,7 +53,7 @@ install(
     include/rhash.h
     include/rurl.h
   DESTINATION
-    include
+    include/${PROJECT_NAME}
 )
 
 #install(

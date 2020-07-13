@@ -54,7 +54,7 @@ if(ENABLE_INTERNAL_RCHEEVOS)
                                     VERSION_VAR RCHEEVOS_VER)
 
 else()
-  find_path(RCHEEVOS_INCLUDE_DIR NAMES rcheevos.h)
+  find_path(RCHEEVOS_INCLUDE_DIR NAMES rcheevos/rcheevos.h)
   find_library(RCHEEVOS_LIBRARY NAMES rcheevoslib)
 
   include(FindPackageHandleStandardArgs)
