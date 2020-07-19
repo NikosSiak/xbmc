@@ -519,6 +519,11 @@ void CRetroPlayer::ResetGame()
   }
 }
 
+void CRetroPlayer::CloseOSDCallback()
+{
+  CloseOSD();
+}
+
 void CRetroPlayer::SetPlaybackSpeed(double speed)
 {
   if (m_playback)
