@@ -847,6 +847,12 @@ typedef struct game_memory_descriptor
   /// arbitrary data to an address, without a separator.
   const char* address_space;
 } ATTRIBUTE_PACKED game_memory_descriptor;
+
+typedef struct game_memory_descriptor_kodi
+{
+  game_memory_descriptor descriptor;
+  size_t disconnectMask;
+} ATTRIBUTE_PACKED game_memory_descriptor_kodi;
 //------------------------------------------------------------------------------
 
 //==============================================================================
@@ -860,6 +866,12 @@ typedef struct game_memory_map
   /// @brief Number of memory descriptors in the array
   unsigned int descriptor_count;
 } ATTRIBUTE_PACKED game_memory_map;
+
+typedef struct game_memory_map_kodi
+{
+  game_memory_descriptor_kodi* descriptors;
+  unsigned int descriptor_count;
+} ATTRIBUTE_PACKED game_memory_map_kodi;
 //------------------------------------------------------------------------------
 
 //==============================================================================
@@ -1462,6 +1474,8 @@ typedef struct KodiToAddonFuncTable_Game
   GAME_ERROR(__cdecl* CheatReset)(const AddonInstance_Game*);
   GAME_ERROR(__cdecl* GetMemory)(const AddonInstance_Game*, GAME_MEMORY, uint8_t**, size_t*);
   GAME_ERROR(__cdecl* SetCheat)(const AddonInstance_Game*, unsigned int, bool, const char*);
+
+  GAME_ERROR(__cdecl* GetMemoryMap)(const AddonInstance_Game*, game_memory_map_kodi&);
 } KodiToAddonFuncTable_Game;
 
 /*!
@@ -2362,6 +2376,11 @@ public:
   {
     return GAME_ERROR_NOT_IMPLEMENTED;
   }
+
+  virtual GAME_ERROR GetMemoryMap(game_memory_map_kodi& memory_map)
+  { 
+    return GAME_ERROR_NOT_IMPLEMENTED;
+  }
   //----------------------------------------------------------------------------
 
   //@}
@@ -2405,9 +2424,17 @@ private:
     m_instanceData->toAddon.CheatReset = ADDON_CheatReset;
     m_instanceData->toAddon.GetMemory = ADDON_GetMemory;
     m_instanceData->toAddon.SetCheat = ADDON_SetCheat;
+
+    m_instanceData->toAddon.GetMemoryMap = ADDON_GetMemoryMap;
   }
 
   // --- Game operations ---------------------------------------------------------
+  inline static GAME_ERROR ADDON_GetMemoryMap(const AddonInstance_Game* instance,
+                                              game_memory_map_kodi& memory_map)
+  {
+    return instance->toAddon.addonInstance->GetMemoryMap(memory_map);
+  }
+
 
   inline static GAME_ERROR ADDON_LoadGame(const AddonInstance_Game* instance, const char* url)
   {

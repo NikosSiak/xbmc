@@ -129,6 +129,8 @@ public:
   bool LogError(GAME_ERROR error, const char* strMethod) const;
   void LogException(const char* strFunctionName) const;
 
+  void GetMemoryMap(game_memory_map_kodi& mmap);
+
 private:
   // Private gameplay functions
   bool InitializeGameplay(const std::string& gamePath,

@@ -588,6 +588,20 @@ void CGameClient::LogException(const char* strFunctionName) const
   CLog::Log(LOGERROR, "Please contact the developer of this add-on: %s", Author().c_str());
 }
 
+void CGameClient::GetMemoryMap(game_memory_map_kodi& mmap)
+{
+  GAME_ERROR error = GAME_ERROR_NO_ERROR;
+
+  try
+  {
+    LogError(error = m_struct.toAddon.GetMemoryMap(&m_struct, mmap), "GetMemoryMap()");
+  }
+  catch (...)
+  {
+    LogException("GetMemoryMap()");
+  }
+}
+
 
 void CGameClient::cb_close_game(void* kodiInstance)
 {
