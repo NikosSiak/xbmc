@@ -589,11 +589,8 @@ bool CGameClient::RCGetGameIDUrl(char* url, size_t size, const char* hash)
   return true;
 }
 
-bool CGameClient::RCGetPatchFileUrl(char* url,
-                                    size_t size,
-                                    const char* username,
-                                    const char* token,
-                                    unsigned gameID)
+bool CGameClient::RCGetPatchFileUrl(
+    char* url, size_t size, const char* username, const char* token, unsigned gameID)
 {
   GAME_ERROR error = GAME_ERROR_NO_ERROR;
 

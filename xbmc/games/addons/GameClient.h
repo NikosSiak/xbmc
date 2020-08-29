@@ -121,7 +121,8 @@ public:
   // RCheevos
   bool RCGenerateHashFromFile(char* hash, int consoleID, const char* filePath);
   bool RCGetGameIDUrl(char* url, size_t size, const char* hash);
-  bool RCGetPatchFileUrl(char* url, size_t size, const char* username, const char* token, unsigned gameID);
+  bool RCGetPatchFileUrl(
+      char* url, size_t size, const char* username, const char* token, unsigned gameID);
   bool RCPostRichPresenceUrl(char* url,
                              size_t urlSize,
                              char* postData,
