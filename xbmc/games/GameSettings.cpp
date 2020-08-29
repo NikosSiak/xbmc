@@ -8,18 +8,18 @@
 
 #include "GameSettings.h"
 
+#include "ServiceBroker.h"
+#include "URL.h"
 #include "events/EventLog.h"
 #include "events/NotificationEvent.h"
 #include "filesystem/File.h"
-#include "ServiceBroker.h"
 #include "settings/Settings.h"
 #include "settings/SettingsComponent.h"
 #include "settings/lib/Setting.h"
-#include "URL.h"
-#include "utils/auto_buffer.h"
 #include "utils/JSONVariantParser.h"
 #include "utils/StringUtils.h"
 #include "utils/Variant.h"
+#include "utils/auto_buffer.h"
 
 #include <algorithm>
 
@@ -42,12 +42,9 @@ CGameSettings::CGameSettings()
 {
   m_settings = CServiceBroker::GetSettingsComponent()->GetSettings();
 
-  m_settings->RegisterCallback(this, {
-                                         SETTING_GAMES_ENABLEREWIND,
-                                         SETTING_GAMES_REWINDTIME,
-                                         SETTING_GAMES_ACHIEVEMENTS_USERNAME,
-                                         SETTING_GAMES_ACHIEVEMENTS_PASSWORD
-                                     });
+  m_settings->RegisterCallback(this, {SETTING_GAMES_ENABLEREWIND, SETTING_GAMES_REWINDTIME,
+                                      SETTING_GAMES_ACHIEVEMENTS_USERNAME,
+                                      SETTING_GAMES_ACHIEVEMENTS_PASSWORD});
 }
 
 CGameSettings::~CGameSettings()
@@ -148,7 +145,8 @@ void CGameSettings::OnSettingChanged(std::shared_ptr<const CSetting> setting)
         m_settings->SetString(SETTING_GAMES_ACHIEVEMENTS_TOKEN, "");
 
         // "RetroAchievements", "Incorrect User/Password!"
-        CServiceBroker::GetEventLog().AddWithNotification(EventPtr(new CNotificationEvent(35264, 35265, EventLevel::Error)));
+        CServiceBroker::GetEventLog().AddWithNotification(
+            EventPtr(new CNotificationEvent(35264, 35265, EventLevel::Error)));
       }
     }
   }
