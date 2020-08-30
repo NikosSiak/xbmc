@@ -180,8 +180,7 @@ bool CRetroPlayer::OpenFile(const CFileItem& file, const CPlayerOptions& options
     // Switch to fullscreen
     MESSAGING::CApplicationMessenger::GetInstance().PostMsg(TMSG_SWITCHTOFULLSCREEN);
 
-    m_cheevos.reset(new CCheevos(m_gameClient.get(),
-                                 m_gameServices.GameSettings().RAUsername(),
+    m_cheevos.reset(new CCheevos(m_gameClient.get(), m_gameServices.GameSettings().RAUsername(),
                                  m_gameServices.GameSettings().RAToken()));
 
     m_cheevos->EnableRichPresence();

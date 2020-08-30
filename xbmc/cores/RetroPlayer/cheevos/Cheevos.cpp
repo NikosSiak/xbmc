@@ -7,15 +7,16 @@
  */
 
 #include "Cheevos.h"
+
+#include "URL.h"
 #include "filesystem/CurlFile.h"
 #include "filesystem/File.h"
 #include "games/addons/GameClient.h"
-#include "URL.h"
-#include "utils/auto_buffer.h"
 #include "utils/JSONVariantParser.h"
-#include "utils/log.h"
 #include "utils/URIUtils.h"
 #include "utils/Variant.h"
+#include "utils/auto_buffer.h"
+#include "utils/log.h"
 
 using namespace KODI;
 using namespace RETRO;
@@ -31,10 +32,10 @@ constexpr int RESPORNSE_SIZE = 64;
 constexpr int URL_SIZE = 512;
 constexpr int POST_DATA_SIZE = 1024;
 
-CCheevos::CCheevos(GAME::CGameClient* gameClient, const std::string userName, const std::string loginToken)
-  : m_gameClient(gameClient),
-    m_userName(userName),
-    m_loginToken(loginToken)
+CCheevos::CCheevos(GAME::CGameClient* gameClient,
+                   const std::string userName,
+                   const std::string loginToken)
+  : m_gameClient(gameClient), m_userName(userName), m_loginToken(loginToken)
 {
 }
 
@@ -89,7 +90,8 @@ bool CCheevos::LoadData()
   if (m_gameID == 0)
     return false;
 
-  if (!m_gameClient->RCGetPatchFileUrl(requestURL, URL_SIZE, m_userName.c_str(), m_loginToken.c_str(), m_gameID))
+  if (!m_gameClient->RCGetPatchFileUrl(requestURL, URL_SIZE, m_userName.c_str(),
+                                       m_loginToken.c_str(), m_gameID))
     return false;
 
   CURL curl(requestURL);
@@ -134,8 +136,9 @@ bool CCheevos::GetRichPresenceEvaluation(char* evaluation, size_t size)
 
   char url[URL_SIZE];
   char postData[POST_DATA_SIZE];
-  if (m_gameClient->RCPostRichPresenceUrl(url, URL_SIZE, postData, POST_DATA_SIZE, m_userName.c_str(),
-                                          m_loginToken.c_str(), m_gameID, evaluation))
+  if (m_gameClient->RCPostRichPresenceUrl(url, URL_SIZE, postData, POST_DATA_SIZE,
+                                          m_userName.c_str(), m_loginToken.c_str(), m_gameID,
+                                          evaluation))
   {
     XFILE::CCurlFile curl;
     std::string res;

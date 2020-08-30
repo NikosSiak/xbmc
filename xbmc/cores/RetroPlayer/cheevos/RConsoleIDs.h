@@ -80,5 +80,5 @@ enum
   RC_CONSOLE_HUBS = 100,
   RC_CONSOLE_EVENTS = 101
 };
-} // namespace RETRO 
+} // namespace RETRO
 } // namespace KODI
