@@ -145,20 +145,19 @@ bool CSavestateDatabase::GetSavestatesNav(CFileItemList& items,
     std::unique_ptr<ISavestate> savestate = AllocateSavestate();
     GetSavestate(items[i]->GetPath(), *savestate);
 
-    const std::string label = savestate->Label();
+    std::string label = savestate->Label();
+    CDateTime dateUTC = savestate->Created();
 
-    CDateTime date = CDateTime::FromUTCDateTime(savestate->Created());
+    if (label.empty() && savestate->Type() == SAVE_TYPE::AUTO)
+      label = "Autosave"; // TODO: move to strings.po
+
     if (label.empty())
-      items[i]->SetLabel(date.GetAsLocalizedDateTime(false, false));
-    else
-    {
-      items[i]->SetLabel(label);
-      items[i]->SetLabel2(date.GetAsLocalizedDateTime(false, false));
-    }
+      label = dateUTC.GetAsLocalizedDateTime(false, false);
 
+    items[i]->SetLabel(label);
     items[i]->SetArt("icon", MakeThumbnailPath(items[i]->GetPath()));
     items[i]->SetProperty(SAVESTATE_CAPTION, savestate->Caption());
-    items[i]->m_dateTime = date;
+    items[i]->m_dateTime = dateUTC;
   }
 
   return true;

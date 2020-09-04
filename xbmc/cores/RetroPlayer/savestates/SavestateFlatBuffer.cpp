@@ -156,7 +156,7 @@ CDateTime CSavestateFlatBuffer::Created() const
   CDateTime created;
 
   if (m_savestate != nullptr && m_savestate->created())
-    created.SetFromW3CDateTime(m_savestate->created()->c_str());
+    created.SetFromW3CDateTime(m_savestate->created()->c_str(), false);
 
   return created;
 }
