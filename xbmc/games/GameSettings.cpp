@@ -103,6 +103,11 @@ std::string CGameSettings::RAUsername()
   return m_settings->GetString(SETTING_GAMES_ACHIEVEMENTS_USERNAME);
 }
 
+std::string CGameSettings::RAPassword()
+{
+  return m_settings->GetString(SETTING_GAMES_ACHIEVEMENTS_PASSWORD);
+}
+
 std::string CGameSettings::RAToken()
 {
   return m_settings->GetString(SETTING_GAMES_ACHIEVEMENTS_TOKEN);

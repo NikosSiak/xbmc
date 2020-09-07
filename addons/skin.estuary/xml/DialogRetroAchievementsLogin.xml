@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window>
+	<defaultcontrol>3</defaultcontrol>
+	<include>Animation_DialogPopupOpenClose</include>
+	<controls>
+		<control type="group">
+			<centertop>50%</centertop>
+			<centerleft>50%</centerleft>
+			<width>1000</width>
+			<height>500</height>
+			<include content="DialogBackgroundCommons">
+				<param name="width" value="1000" />
+				<param name="height" value="500" />
+				<param name="header_label" value="$LOCALIZE[15313]" />
+				<param name="header_id" value="2" />
+			</include>
+			<control type="group">
+				<control type="edit" format="string" id="1">
+					<description>RetroAchievements Username</description>
+					<top>100</top>
+					<left>10</left>
+					<width>990</width>
+					<height>100</height>
+					<label>$LOCALIZE[1048]</label>
+				</control>
+				<control type="edit" format="string" id="2">
+					<description>RetroAchievements password</description>
+					<top>200</top>
+					<left>10</left>
+					<width>990</width>
+					<height>100</height>
+					<hidden>true</hidden>
+					<label>$LOCALIZE[733]</label>
+				</control>
+				<control type="button" id="3">
+					<description>Login button</description>
+					<top>300</top>
+					<left>10</left>
+					<width>200</width>
+					<height>100</height>
+					<include>ButtonInfoDialogsCommonValues</include>
+					<label>15314</label>
+					<onclick>RetroAchievementsLogin</onclick>
+				</control>
+			</control>
+		</control>
+    </controls>
+</window>

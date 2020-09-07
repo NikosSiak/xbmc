@@ -8610,11 +8610,19 @@ msgstr ""
 
 #. Group label for Achievements category in game settings
 #: system/settings/settings.xml
+#: addons/skin.estuary/xml/Custom_1101_SettingsList.xml
+#: addons/skin.estuary/xml/DialogRetroAchievementsLogin.xml
 msgctxt "#15313"
 msgid "Login to RetroAchievements"
 msgstr ""
 
-#empty strings from id 15314 to 15999
+#. Label for in-game setting login button
+#: addons/skin.estuary/xml/DialogRetroAchievementsLogin.xml
+msgctxt "#15314"
+msgid "Login"
+msgstr ""
+
+#empty strings from id 15315 to 15999
 
 #. Label for button in the in-game savestate manager
 #: xbmc/games/dialogs/osd/DialogInGameSaves.cpp
@@ -19728,6 +19736,7 @@ msgstr ""
 
 #. Description of setting with label #1048 "Username"
 #: system/settings/settings.xml
+#: addons/skin.estuary/xml/DialogRetroAchievementsLogin.xml
 msgctxt "#36330"
 msgid "Define the web server username. Must be set when authentication is enabled."
 msgstr ""
@@ -19818,6 +19827,7 @@ msgstr ""
 
 #. Description of setting with label #733 "Password"
 #: system/settings/settings.xml
+#: addons/skin.estuary/xml/DialogRetroAchievementsLogin.xml
 msgctxt "#36345"
 msgid "Sets the AirPlay password."
 msgstr ""

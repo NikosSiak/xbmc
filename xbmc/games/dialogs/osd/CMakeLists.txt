@@ -8,6 +8,7 @@ set(SOURCES DialogGameAdvancedSettings.cpp
             DialogGameVideoSelect.cpp
             DialogGameVolume.cpp
             DialogInGameSaves.cpp
+            DialogRetroAchievementsLogin.cpp
 )
 
 set(HEADERS DialogGameAdvancedSettings.h
@@ -20,6 +21,7 @@ set(HEADERS DialogGameAdvancedSettings.h
             DialogGameVideoSelect.h
             DialogGameVolume.h
             DialogInGameSaves.h
+            DialogRetroAchievementsLogin.h
 )
 
 core_add_library(gameosddialogs)

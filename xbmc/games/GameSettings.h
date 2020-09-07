@@ -36,6 +36,7 @@ public:
   bool RewindEnabled();
   unsigned int MaxRewindTimeSec();
   std::string RAUsername();
+  std::string RAPassword();
   std::string RAToken();
 
   // Inherited from ISettingCallback
