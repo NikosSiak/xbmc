@@ -177,13 +177,13 @@ void CRPBaseRenderer::ManageRenderArea(const IRenderBuffer& renderBuffer)
         m_gameon = true;
       }
     }
-    screenWidth = sourceWidth;
-    screenHeight = sourceHeight;
-    screenPixelRatio = 1.0;
-    viewRect.x1 = 0;
-    viewRect.y1 = 0;
-    viewRect.x2 = sourceWidth;
-    viewRect.y2 = sourceHeight;
+    screenWidth = static_cast<float>(sourceWidth);
+    screenHeight = static_cast<float>(sourceHeight);
+    screenPixelRatio = 1.0f;
+    viewRect.x1 = 0.0f;
+    viewRect.y1 = 0.0f;
+    viewRect.x2 = static_cast<float>(sourceWidth);
+    viewRect.y2 = static_cast<float>(sourceHeight);
   }
   // Calculate pixel ratio and zoom amount
   float pixelRatio = 1.0f;
