@@ -25,7 +25,7 @@
 
 using namespace KODI::WINDOWING::GBM;
 
-const std::string SETTING_VIDEOSCREEN_HW_SCALING_FILTER = "videoscreen.hwscalingfilter";
+const std::string CDRMAtomic::SETTING_VIDEOSCREEN_HW_SCALING_FILTER = "videoscreen.hwscalingfilter";
 
 enum drm_scaling_filter
 {
@@ -124,8 +124,7 @@ void CDRMAtomic::DrmAtomicCommit(int fb_id, int flags, bool rendered, bool video
     AddProperty(m_gui_plane, "SRC_Y", 0);
     AddProperty(m_gui_plane, "SRC_W", m_width << 16);
     AddProperty(m_gui_plane, "SRC_H", m_height << 16);
-    auto settings = CServiceBroker::GetSettingsComponent()->GetSettings();
-    if (nullptr != settings && settings->GetBool(SETTING_VIDEOSCREEN_HW_SCALING_FILTER))
+    if (SupportsDislayHardwareScaling())
     {
       SetScalingFilter(m_gui_plane, "SCALING_FILTER", "Nearest Neighbor");
     }
@@ -308,4 +307,14 @@ bool CDRMAtomic::ResetPlanes()
   drmModeFreePlaneResources(plane_resources);
 
   return true;
+}
+
+bool CDRMAtomic::SupportsDislayHardwareScaling()
+{
+  auto settings = CServiceBroker::GetSettingsComponent()->GetSettings();
+
+  if (settings && settings->GetBool(SETTING_VIDEOSCREEN_HW_SCALING_FILTER))
+    return true;
+
+  return false;
 }
