@@ -12,7 +12,12 @@
 #include "settings/DisplaySettings.h"
 #include "settings/MediaSettings.h"
 #include "windowing/GraphicContext.h"
+#include "windowing/Resolution.h"
 #include "windowing/WinSystem.h"
+
+#if defined(HAVE_GBM)
+#include "windowing/gbm/DRMAtomic.h"
+#endif
 
 #include "system_gl.h"
 
@@ -176,6 +181,16 @@ bool CRenderContext::UseLimitedColor()
   return m_windowing->UseLimitedColor();
 }
 
+bool CRenderContext::SetFullScreen(bool fullScreen,
+                                   const RESOLUTION_INFO& res,
+                                   bool blankOtherDisplays)
+{
+  //! @todo The PR that made the res struct constant was abandoned due to drama
+  RESOLUTION_INFO& resMutable = const_cast<RESOLUTION_INFO&>(res);
+
+  return m_windowing->SetFullScreen(fullScreen, resMutable, blankOtherDisplays);
+}
+
 int CRenderContext::GetScreenWidth()
 {
   return m_graphicsContext.GetWidth();
@@ -274,4 +289,13 @@ CGameSettings& CRenderContext::GetGameSettings()
 CGameSettings& CRenderContext::GetDefaultGameSettings()
 {
   return m_mediaSettings.GetDefaultGameSettings();
+}
+
+bool CRenderContext::SupportsDislayHardwareScaling()
+{
+#if defined(HAVE_GBM)
+  return WINDOWING::GBM::CDRMAtomic::SupportsDislayHardwareScaling();
+#endif
+
+  return false;
 }

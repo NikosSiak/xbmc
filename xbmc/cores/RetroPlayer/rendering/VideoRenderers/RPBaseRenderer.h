@@ -108,9 +108,10 @@ private:
   // Utility functions
   void GetScreenDimensions(float& screenWidth, float& screenHeight, float& screenPixelRatio);
 
+  // State parameters
   uint64_t m_renderFrameCount = 0;
   uint64_t m_lastRender = 0;
-  bool m_gameon{false};
+  bool m_bFullscreenConfigured{false};
 };
 } // namespace RETRO
 } // namespace KODI

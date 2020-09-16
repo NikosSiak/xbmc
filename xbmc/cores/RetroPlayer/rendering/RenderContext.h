@@ -22,6 +22,8 @@ class CRenderSystemBase;
 class CWinSystemBase;
 class TransformMatrix;
 
+struct RESOLUTION_INFO;
+
 enum class GL_SHADER_METHOD
 {
   DEFAULT,
@@ -65,6 +67,7 @@ public:
 
   // Windowing functions
   bool UseLimitedColor();
+  bool SetFullScreen(bool fullScreen, const RESOLUTION_INFO& res, bool blankOtherDisplays);
 
   // Graphics functions
   int GetScreenWidth();
@@ -91,6 +94,9 @@ public:
   // Media settings
   CGameSettings& GetGameSettings();
   CGameSettings& GetDefaultGameSettings();
+
+  // General settings
+  bool SupportsDislayHardwareScaling();
 
 private:
   // Construction parameters

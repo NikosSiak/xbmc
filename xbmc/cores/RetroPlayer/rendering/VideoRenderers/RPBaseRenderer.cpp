@@ -8,9 +8,6 @@
 
 #include "RPBaseRenderer.h"
 
-#include "windowing/GraphicContext.h"
-#include "settings/Settings.h"
-#include "settings/SettingsComponent.h"
 #include "cores/RetroPlayer/buffers/IRenderBuffer.h"
 #include "cores/RetroPlayer/buffers/IRenderBufferPool.h"
 #include "cores/RetroPlayer/rendering/RenderContext.h"
@@ -37,8 +34,6 @@ CRPBaseRenderer::~CRPBaseRenderer()
   SetBuffer(nullptr);
 
   m_bufferPool->UnregisterRenderer(this);
-
-  m_gameon = false;
 }
 
 bool CRPBaseRenderer::IsCompatible(const CRenderVideoSettings& settings) const
@@ -141,11 +136,6 @@ void CRPBaseRenderer::ManageRenderArea(const IRenderBuffer& renderBuffer)
       (sourceRotationDegCCW + m_renderSettings.VideoSettings().GetRenderRotation()) % 360;
 
   const SCALINGMETHOD scaleMode = m_renderSettings.VideoSettings().GetScalingMethod();
-  // Check if Display Hardware supports filters
-  bool hw_filter{false};
-  auto settings = CServiceBroker::GetSettingsComponent()->GetSettings();
-  if (nullptr != settings)
-    hw_filter = settings->GetBool(SETTING_VIDEOSCREEN_HW_SCALING_FILTER);
 
   // Get screen parameters
   float screenWidth;
@@ -156,34 +146,34 @@ void CRPBaseRenderer::ManageRenderArea(const IRenderBuffer& renderBuffer)
   // Entire target rendering area for the video (including black bars)
   CRect viewRect = m_context.GetViewWindow();
 
-  if (hw_filter && scaleMode == SCALINGMETHOD::NEAREST && stretchMode == STRETCHMODE::Original)
+  // Configure game frame to window size once per game
+  if (!m_bFullscreenConfigured && m_context.SupportsDislayHardwareScaling())
   {
-    RESOLUTION_INFO m_gameRes=m_context.GetResInfo();
-    m_gameRes.Overscan.left = 0;
-    m_gameRes.Overscan.top = 0;
-    m_gameRes.Overscan.right = sourceWidth;
-    m_gameRes.Overscan.bottom = sourceHeight;
-    m_gameRes.iWidth = sourceWidth;
-    m_gameRes.iHeight = sourceHeight;
-    m_gameRes.iScreenWidth = sourceWidth;
-    m_gameRes.iScreenHeight = sourceHeight;
-    if (!m_gameon)
+    if (scaleMode == SCALINGMETHOD::NEAREST && stretchMode == STRETCHMODE::Original)
     {
-      CLog::Log(LOGDEBUG, "Retroplayer: Configuring game frame to window size once per game\n");
-      auto winSystem = CServiceBroker::GetWinSystem();
-      if (nullptr != winSystem)
-      {
-        winSystem->SetFullScreen(true, m_gameRes, false);
-        m_gameon = true;
-      }
+      RESOLUTION_INFO gameRes = m_context.GetResInfo();
+      gameRes.Overscan.left = 0;
+      gameRes.Overscan.top = 0;
+      gameRes.Overscan.right = sourceWidth;
+      gameRes.Overscan.bottom = sourceHeight;
+      gameRes.iWidth = sourceWidth;
+      gameRes.iHeight = sourceHeight;
+      gameRes.iScreenWidth = sourceWidth;
+      gameRes.iScreenHeight = sourceHeight;
+
+      CLog::Log(LOGDEBUG, "Retroplayer: Configuring game frame to window size once per game");
+      m_context.SetFullScreen(true, gameRes, false);
+
+      screenWidth = static_cast<float>(sourceWidth);
+      screenHeight = static_cast<float>(sourceHeight);
+      screenPixelRatio = 1.0f;
+      viewRect.x1 = 0.0f;
+      viewRect.y1 = 0.0f;
+      viewRect.x2 = static_cast<float>(sourceWidth);
+      viewRect.y2 = static_cast<float>(sourceHeight);
+
+      m_bFullscreenConfigured = true;
     }
-    screenWidth = static_cast<float>(sourceWidth);
-    screenHeight = static_cast<float>(sourceHeight);
-    screenPixelRatio = 1.0f;
-    viewRect.x1 = 0.0f;
-    viewRect.y1 = 0.0f;
-    viewRect.x2 = static_cast<float>(sourceWidth);
-    viewRect.y2 = static_cast<float>(sourceHeight);
   }
   // Calculate pixel ratio and zoom amount
   float pixelRatio = 1.0f;
