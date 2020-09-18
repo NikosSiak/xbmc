@@ -363,7 +363,10 @@ namespace XBMCAddon
       if (!g_application.GetAppPlayer().IsPlayingGame())
         throw PlayerException("XBMC is not playing any game file");
 
-      return new InfoTagGame(*g_application.CurrentFileItem().GetGameInfoTag());
+      const KODI::GAME::CGameInfoTag* game =
+          CServiceBroker::GetGUI()->GetInfoManager().GetCurrentGameTag();
+
+      return new InfoTagGame(*game);
     }
 
     InfoTagVideo* Player::getVideoInfoTag()

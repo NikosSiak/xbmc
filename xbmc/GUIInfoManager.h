@@ -28,6 +28,10 @@ typedef std::shared_ptr<CGUIListItem> CGUIListItemPtr;
 
 namespace KODI
 {
+namespace GAME
+{
+  class CGameInfoTag;
+}
 namespace GUILIB
 {
 namespace GUIINFO
@@ -122,6 +126,9 @@ public:
   // Current video stuff
   const CVideoInfoTag* GetCurrentMovieTag() const;
 
+  // Current game stuff
+  const KODI::GAME::CGameInfoTag* GetCurrentGameTag() const;
+
   void UpdateAVInfo();
 
   int RegisterSkinVariableString(const INFO::CSkinVariableString* info);
@@ -190,6 +197,7 @@ private:
   int ResolveMultiInfo(int info) const;
   bool IsListItemInfo(int info) const;
 
+  void SetCurrentGameTag(const KODI::GAME::CGameInfoTag& tag);
   void SetCurrentSongTag(const MUSIC_INFO::CMusicInfoTag &tag);
   void SetCurrentVideoTag(const CVideoInfoTag &tag);
 

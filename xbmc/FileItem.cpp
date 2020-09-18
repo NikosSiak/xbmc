@@ -3559,6 +3559,14 @@ CGameInfoTag* CFileItem::GetGameInfoTag()
   return m_gameInfoTag;
 }
 
+void CFileItem::SetGameInfoTag(const KODI::GAME::CGameInfoTag& game)
+{
+  if (!m_gameInfoTag)
+    m_gameInfoTag = new CGameInfoTag;
+
+  *m_gameInfoTag = game;
+}
+
 std::string CFileItem::FindTrailer() const
 {
   std::string strFile2;

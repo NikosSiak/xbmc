@@ -15,6 +15,7 @@
 #include "Util.h"
 #include "cores/DataCacheCore.h"
 #include "filesystem/File.h"
+#include "games/tags/GameInfoTag.h"
 #include "guilib/guiinfo/GUIInfo.h"
 #include "guilib/guiinfo/GUIInfoHelper.h"
 #include "guilib/guiinfo/GUIInfoLabels.h"
@@ -10784,6 +10785,11 @@ void CGUIInfoManager::ResetCache()
   ++m_refreshCounter;
 }
 
+void CGUIInfoManager::SetCurrentGameTag(const KODI::GAME::CGameInfoTag& tag)
+{
+  m_currentFile->SetGameInfoTag(tag);
+}
+
 void CGUIInfoManager::SetCurrentVideoTag(const CVideoInfoTag &tag)
 {
   m_currentFile->SetFromVideoInfoTag(tag);
@@ -10810,6 +10816,11 @@ const CVideoInfoTag* CGUIInfoManager::GetCurrentMovieTag() const
     return m_currentFile->GetVideoInfoTag();
 
   return nullptr;
+}
+
+const KODI::GAME::CGameInfoTag* CGUIInfoManager::GetCurrentGameTag() const
+{
+  return m_currentFile->GetGameInfoTag();
 }
 
 int CGUIInfoManager::RegisterSkinVariableString(const CSkinVariableString* info)
@@ -10896,6 +10907,8 @@ void CGUIInfoManager::OnApplicationMessage(KODI::MESSAGING::ThreadMessage* pMsg)
       SetCurrentSongTag(*item->GetMusicInfoTag());
     else if (pMsg->param1 == 2 && item->HasVideoInfoTag()) // only grab video tag
       SetCurrentVideoTag(*item->GetVideoInfoTag());
+    else if (pMsg->param1 == 3 && item->HasGameInfoTag()) // only grab game tag
+      SetCurrentGameTag(*item->GetGameInfoTag());
     else
       SetCurrentItem(*item);
 

@@ -9,6 +9,7 @@
 #include "RetroPlayer.h"
 
 #include "FileItem.h"
+#include "GUIInfoManager.h"
 #include "RetroPlayerAutoSave.h"
 #include "RetroPlayerInput.h"
 #include "ServiceBroker.h"
@@ -40,6 +41,7 @@
 #include "guilib/WindowIDs.h"
 #include "input/actions/Action.h"
 #include "input/actions/ActionIDs.h"
+#include "interfaces/AnnouncementManager.h"
 #include "messaging/ApplicationMessenger.h"
 #include "settings/MediaSettings.h"
 #include "threads/SingleLock.h"
@@ -58,11 +60,14 @@ CRetroPlayer::CRetroPlayer(IPlayerCallback& callback)
 {
   ResetPlayback();
   CServiceBroker::GetWinSystem()->RegisterRenderLoop(this);
+  CServiceBroker::GetAnnouncementManager()->AddAnnouncer(this);
+  m_fileItem.reset(new CFileItem());
 }
 
 CRetroPlayer::~CRetroPlayer()
 {
   CServiceBroker::GetWinSystem()->UnregisterRenderLoop(this);
+  CServiceBroker::GetAnnouncementManager()->RemoveAnnouncer(this);
   CloseFile();
 }
 
@@ -180,7 +185,7 @@ bool CRetroPlayer::OpenFile(const CFileItem& file, const CPlayerOptions& options
     // Switch to fullscreen
     MESSAGING::CApplicationMessenger::GetInstance().PostMsg(TMSG_SWITCHTOFULLSCREEN);
 
-    m_cheevos.reset(new CCheevos(m_gameClient.get(), m_gameServices.GameSettings().RAUsername(),
+    m_cheevos.reset(new CCheevos(m_gameClient.get(), m_fileItem.get(), m_gameServices.GameSettings().RAUsername(),
                                  m_gameServices.GameSettings().RAToken()));
 
     m_cheevos->EnableRichPresence();
@@ -566,6 +571,18 @@ bool CRetroPlayer::IsAutoSaveEnabled() const
 std::string CRetroPlayer::CreateAutosave()
 {
   return m_playback->CreateSavestate(true);
+}
+
+void CRetroPlayer::Announce(ANNOUNCEMENT::AnnouncementFlag flag,
+                            const char* sender,
+                            const char* message,
+                            const CVariant& data)
+{
+  if (flag == ANNOUNCEMENT::Info && strcmp(message, "OnChanged") == 0)
+  {
+    CGUIInfoManager& infoMgr = CServiceBroker::GetGUI()->GetInfoManager();
+    m_fileItem->SetGameInfoTag(*infoMgr.GetCurrentGameTag());
+  }
 }
 
 void CRetroPlayer::SetSpeedInternal(double speed)

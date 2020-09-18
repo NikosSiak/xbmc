@@ -376,6 +376,8 @@ public:
     return m_gameInfoTag;
   }
 
+  void SetGameInfoTag(const KODI::GAME::CGameInfoTag& game);
+
   CPictureInfoTag* GetPictureInfoTag();
 
   /*!

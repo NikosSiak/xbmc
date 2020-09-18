@@ -25,7 +25,10 @@ namespace RETRO
 class CCheevos
 {
 public:
-  CCheevos(GAME::CGameClient* gameClient, const std::string userName, const std::string loginToken);
+  CCheevos(GAME::CGameClient* gameClient,
+           CFileItem* fileItem,
+           const std::string userName,
+           const std::string loginToken);
   void ResetRuntime();
   void EnableRichPresence();
   bool GetRichPresenceEvaluation(char* evaluation, size_t size);
@@ -49,6 +52,7 @@ private:
   bool m_richPresenceLoaded{};
 
   // Game metadata
+  CFileItem* m_fileItem;
   std::string m_title;
   std::string m_publisher;
   std::string m_developer;
